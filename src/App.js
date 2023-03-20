@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+import React, { useState, Component } from "react";
+import { Routes, Route } from 'react-router-dom';
+import OpenStreetMap from "./components/openstreetmap";
+import Mapbox  from "./components/mapbox";
+import PurchaseAgreeFill from "./components/purchase-agreement-fill";
 import './App.css';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="router">
+      <main>
+        {/*
+            NOTE: The syntax below is for React-Router
+              - A helpful library for routing with a React app.
+              You can learn more about this at:
+              https://reacttraining.com/react-router/web/guides/quick-start
+        */}
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+            <PurchaseAgreeFill />}
+          />
+          <Route
+            exact
+            path="/mapbox"
+            element={<Mapbox />}
+          />
+          <Route
+            exact
+            path="/open-street"
+            element={
+            <OpenStreetMap 
+              
+            />}
+          />
+        </Routes>
+      </main>
     </div>
   );
 }
