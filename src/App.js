@@ -2,6 +2,7 @@ import React, { useState, Component } from "react";
 import { Routes, Route } from 'react-router-dom';
 import OpenStreetMap from "./components/openstreetmap";
 import Mapbox  from "./components/mapbox";
+import NotFound from "./components/not-found";
 import PurchaseAgreeFill from "./components/purchase-agreement-fill";
 import './App.css';
 
@@ -17,23 +18,25 @@ function App(props) {
         */}
         <Routes>
           <Route
-            exact
-            path="/"
+            exact path="/"
             element={
             <PurchaseAgreeFill />}
           />
           <Route
-            exact
-            path="/mapbox"
+            exact path="/mapbox"
             element={<Mapbox />}
           />
           <Route
-            exact
-            path="/open-street"
+            exact path="/open-street"
             element={
             <OpenStreetMap 
               
             />}
+          />
+          <Route
+            path="*"
+            element={
+            <NotFound />}
           />
         </Routes>
       </main>
