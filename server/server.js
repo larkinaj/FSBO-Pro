@@ -18,20 +18,21 @@ app.use(session({
   secret: 'secret key',
   saveUninitialized: false,
   resave: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60000 },
+  rolling: true
 }))
 app.use(express.static(path.resolve(__dirname, '../build')))
 
 app.post("/login", sessionController.createSession, (req, res) => {
-  res.status(200).json({ authenticated: true })
+  res.status(200).json({ authenticated: true, session: req.session })
 })
 
 app.get("/verify", sessionController.verifyUser, (req, res) => {
-  res.status(200).json({ authenticated: true })
+  res.status(200).json({ authenticated: true, session: req.session })
 })
 
 app.post("/create", fileController.fillPDF, async (req, res) => {
-  // res.send(res.locals.fieldNames)
+  let folder = ''
   res.setHeader('Content-Type', 'application/pdf');
   //res.download(path.join(__dirname, templatePDFLocation))
   res.sendFile(path.join(__dirname, outputPDFLocation))

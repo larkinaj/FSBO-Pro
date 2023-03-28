@@ -417,6 +417,7 @@ const PurchaseAgreeFill = (props) => {
   }
 
   const createPDF = async () => {
+    
     fetch('http://localhost:3000/create', {
       method: 'POST',
       body: JSON.stringify(formData),

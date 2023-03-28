@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = (props) => {
+  const navigate = useNavigate();
   const loginUser = (event) => {
     event.preventDefault()
     let credentials = {
@@ -18,6 +19,7 @@ const LoginPage = (props) => {
       console.log(data)
       if (data.authenticated === true) {
         props.setIsAuthenticated(true)
+        navigate("/profile")
       }
     })
   }

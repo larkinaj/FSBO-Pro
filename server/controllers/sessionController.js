@@ -36,7 +36,8 @@ sessionController.createSession = async (req, res, next) => {
   }
   if (userList.rows[0].password === passLogin) {
     req.session.authenticated = true
-    req.session.user = userLogin
+    req.session.username = userLogin
+    req.session.userID = userList.rows[0].id
     return next()
   }
 }
