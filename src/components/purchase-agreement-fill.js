@@ -358,6 +358,18 @@ const PurchaseAgreeFill = (props) => {
   const [previousButton, setPreviousButton] = useState(-1)
   const [nextButton, setNextButton] = useState(1)
 
+  useEffect(() => {
+    fetch('http://localhost:3000/verify')
+    .then((res)=>res.json())
+    .then((data)=>{
+      console.log('Here is purchase-agreement component')
+      if (data.authenticated === false) {
+        props.setIsAuthenticated(false)
+      }
+      console.log(data)
+    })
+  })
+
   const handleClick = async () => {
     // fetch('http://localhost:3000/data')
     // .then(res => {

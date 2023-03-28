@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { Pool } = require('pg');
 
 // create a new pool here using the connection string above
