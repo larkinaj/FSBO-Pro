@@ -147,3 +147,32 @@ const fieldNames = [
   "Text2"
 ]
 
+const dateConverter = (date) => {
+  const month = date.slice(5, 10 - 3);
+  const day = date.slice(8)
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const newDate = months[Number(month) - 1] + ' ' + day
+  return newDate
+}
+
+const checkPropertyType = (type) => {
+  switch(type) {
+    case 'singleFamily':
+      form.getCheckBox('SingleFamily Home').check()
+      break;
+    case 'condominium': 
+      form.getCheckBox('Condominium').check()
+      break;
+    case 'plannedUnit':
+      form.getCheckBox('Planned Unit Development PUD').check()
+      break;
+    case 'duplex':
+      form.getCheckBox('Duplex').check()
+      break;
+  }
+}
+
+module.exports = { 
+  dateConverter,
+  checkPropertyType
+ }

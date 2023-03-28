@@ -22,7 +22,7 @@ const PropertyType = (props) => {
         <input type="radio" id="condominium" name="propertyType" value="condominium" />
         <label for="condominium">Condominium</label><br />
         <input type="radio" id="plannedUnit" name="propertyType" value="plannedUnit" />
-        <label for="plannedUnit">Planned Unit Development (PUD)</label>
+        <label for="plannedUnit">Planned Unit Development (PUD)</label><br />
         <input type="radio" id="duplex" name="propertyType" value="duplex" />
         <label for="duplex">Duplex (2-unit)</label>
       </form>
@@ -157,32 +157,50 @@ const PropertyAddress = (props) => {
 }
 
 const LegalDescription = (props) => {
+  const changeLegalDesc = (event) => {
+    const newState = structuredClone(props.formData)
+    newState[3].taxParcelInfo = document.getElementById('taxParcelInfo').value
+    newState[3].otherLegalDescript = document.getElementById('otherLegalDescript').value
+    props.setFormData(newState)
+  }
+  useEffect(() => {
+    document.getElementById('taxParcelInfo').value = props.formData[3].taxParcelInfo;
+    document.getElementById('otherLegalDescript').value = props.formData[3].otherLegalDescript;
+  });
   return (
     <div className='formContainer'>
       <h3>Legal Description</h3>
-      <span>Do you know the Legal Description of the Property</span>
       <form>
-        <input type="radio" id="yes" name="legalDescription" value="yes" />
-        <label for="yes">Yes</label><br />
-        <input type="radio" id="no" name="legalDescription" value="no" />
-        <label for="no">No</label><br />
+        <div>
+          {/* <span>Tax Parcel Information</span> */}
+          <input onChange={(e)=>changeLegalDesc(e)} type="text" id="taxParcelInfo" name="taxParcelInfo" />
+          <label for="taxParcelInfo">Tax Parcel Information</label><br />
+        </div>
+        <div>
+          {/* <span>Other Description</span> */}
+          <input onChange={(e)=>changeLegalDesc(e)} type="text" id="otherLegalDescript" name="otherLegalDescript" />
+          <label for="otherLegalDescript">Other Description</label><br />
+        </div>
       </form>
     </div>
   )
 }
 
 const PersonalProperty = (props) => {
+  const changePersonalProp = (event) => {
+    const newState = structuredClone(props.formData)
+    newState[4].propertyList = document.getElementById('propertyList').value
+    props.setFormData(newState)
+  }
+  useEffect(() => {
+    document.getElementById('propertyList').value = props.formData[4].propertyList;
+  });
   return (
     <div>
-      <h3>Personal Property</h3>
-      <span>Will the Buyer be obtaining any of the Seller's Property?</span>
+      <h3>Personal Property and Fixtures</h3>
       <form>
-        <input type="radio" id="yes" name="personalProperty" value="yes" />
-        <label for="yes">Yes</label><br />
-        <input type="radio" id="no" name="personalProperty" value="no" />
-        <label for="no">No</label><br />
-        <input type="text" id="personalProperty" name="propertyList" />
-        <label for="personalProperty">List All Personal Property</label><br />
+        <input onChange={(e)=>changePersonalProp(e)} type="text" id="propertyList" name="propertyList" />
+        <label for="propertyList">List All Personal Property and Fixtures</label><br />
       </form>
     </div>
   )
@@ -498,25 +516,41 @@ const SellerType = (props) => {
 }
 
 const SellerIndividual = (props) => {
-  let numOfIndividuals = Number(props.formData[10].individuals)
-  let individuals = Array.from(Array(numOfIndividuals).keys())
-  individuals = individuals.map((el, i)=>{
-    return (
-      <div key={i}>
-        <span>{i+1}. Individual Name</span>
-        <form>
-          <input type="text" id="sellerFName" name="sellerFName" />
-          <label for="sellerFName">First Name</label><br />
-          <input type="text" id="sellerLName" name="sellerLName" />
-          <label for="sellerLName">Last Name</label><br />
-        </form>
-      </div>
-    )
-  })
+  const changeName = () => {
+    const newState = structuredClone(props.formData)
+    newState[11].sellerFName = document.getElementById('sellerFName').value;
+    newState[11].sellerLName = document.getElementById('sellerLName').value;
+    props.setFormData(newState)
+  }
+  useEffect(() => {
+    document.getElementById('sellerFName').value = props.formData[11].sellerFName;
+    document.getElementById('sellerLName').value = props.formData[11].sellerLName;
+  });
+  // let numOfIndividuals = Number(props.formData[10].individuals)
+  // let individuals = Array.from(Array(numOfIndividuals).keys())
+  // individuals = individuals.map((el, i)=>{
+  //   return (
+  //     <div key={i}>
+  //       <span>{i+1}. Individual Name</span>
+  //       <form>
+  //         <input type="text" id="sellerFName" name="sellerFName" />
+  //         <label for="sellerFName">First Name</label><br />
+  //         <input type="text" id="sellerLName" name="sellerLName" />
+  //         <label for="sellerLName">Last Name</label><br />
+  //       </form>
+  //     </div>
+  //   )
+  // })
   return (
     <div>
       <h3>Seller (Individual)</h3>
-      {individuals}
+      <span>Individual Name</span>
+      <form onChange={changeName}>
+        <input type="text" id="sellerFName" name="sellerFName" />
+        <label for="sellerFName">First Name</label><br />
+        <input type="text" id="sellerLName" name="sellerLName" />
+        <label for="sellerLName">Last Name</label><br />
+      </form>
     </div>
   )
 }
@@ -555,18 +589,43 @@ const SellerEntity = (props) => {
 }
 
 const SellerAddress = (props) => {
+  const changeTextAddress = (event) => {
+    const newState = structuredClone(props.formData)
+    newState[13].sellAddressLine1 = document.getElementById('sellAddressLine1').value
+    newState[13].sellAddressLine2 = document.getElementById('sellAddressLine2').value
+    newState[13].sellCity = document.getElementById('sellCity').value
+    newState[13].sellState = document.getElementById('sellState').value
+    newState[13].sellZip = document.getElementById('sellZip').value
+    props.setFormData(newState)
+  }
+  const changeState = (event) => {
+    const newState = structuredClone(props.formData)
+    newState[13].sellAddressLine1 = document.getElementById('sellAddressLine1').value
+    newState[13].sellAddressLine2 = document.getElementById('sellAddressLine2').value
+    newState[13].sellCity = document.getElementById('sellCity').value
+    newState[13].sellState = event.target.value
+    newState[13].sellZip = document.getElementById('sellZip').value
+    props.setFormData(newState)
+  }
+  useEffect(() => {
+    document.getElementById('sellAddressLine1').value = props.formData[13].sellAddressLine1;
+    document.getElementById('sellAddressLine2').value = props.formData[13].sellAddressLine2;
+    document.getElementById('sellCity').value = props.formData[13].sellCity;
+    document.getElementById('sellState').value = props.formData[13].sellState;
+    document.getElementById('sellZip').value = props.formData[13].sellZip;
+  });
   return (
     <div>
       <h3>Seller's Mailing Address</h3>
       <span>Sellers's Mailing Address</span>
       <form>
-        <input type="text" id="addressLine1" name="addressLine1" />
-        <label for="addressLine1">Street Address</label><br />
-        <input type="text" id="addressLine2" name="addressLine2" />
-        <label for="addressLine2">Address Line 2</label><br />
-        <input type="text" id="city" name="city" />
-        <label for="city">City</label><br />
-        <select type="text" id="state" name="state">
+        <input onChange={(e)=>changeTextAddress(e)} type="text" id="sellAddressLine1" name="sellAddressLine1" />
+        <label for="sellAddressLine1">Street Address</label><br />
+        <input onChange={(e)=>changeTextAddress(e)} type="text" id="sellAddressLine2" name="sellAddressLine2" />
+        <label for="sellAddressLine2">Address Line 2</label><br />
+        <input onChange={(e)=>changeTextAddress(e)} type="text" id="sellCity" name="sellCity" />
+        <label for="sellCity">City</label><br />
+        <select onChange={(e)=>changeState(e)} type="text" id="sellState" name="sellState">
           <option>Select A State</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
@@ -620,26 +679,36 @@ const SellerAddress = (props) => {
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
         </select>
-        <label for="state">State</label><br />
-        <input type="text" id="zipcode" name="zipcode" />
-        <label for="zipcode">Zip Code</label><br />
+        <label for="sellState">State</label><br />
+        <input onChange={(e)=>changeTextAddress(e)} type="text" id="sellZip" name="sellZip" />
+        <label for="sellZip">Zip Code</label><br />
       </form>
     </div>
   )
 }
 
 const PurchasePrice = (props) => {
+  const changePrice = (event) => {
+    const newState = structuredClone(props.formData)
+    newState[14].numericPrice = Number(document.getElementById('numericPrice').value).toFixed(2);
+    newState[14].textPrice = document.getElementById('textPrice').value;
+    props.setFormData(newState)
+  }
+  useEffect(() => {
+    document.getElementById('numericPrice').value = props.formData[14].numericPrice;
+    document.getElementById('textPrice').value = props.formData[14].textPrice;
+  });
   return (
     <div>
       <h3>Purchase Price</h3>
       <form>
       <span>Numeric</span>
         <div>$
-          <input type="text" id="zipcode" name="zipcode" />
+          <input onChange={(e)=>changePrice(e)} type="number" step=".01" id="numericPrice" name="numericPrice" />
         </div>
         <span>Text</span>
         <div>
-          <input type="text" id="zipcode" name="zipcode" />
+          <input onChange={(e)=>changePrice(e)} type="text" id="textPrice" name="textPrice" />
           Dollars
         </div>
       </form>
@@ -756,6 +825,23 @@ const AgentNames = (props) => {
 }
 
 const EffectiveDate = (props) => {
+  const changeDate = (event) => {
+    const newState = structuredClone(props.formData)
+    newState[39].effectiveDate = event.target.value
+    props.setFormData(newState)
+  }
+  useEffect(() => {
+    document.getElementById('effectiveDate').value = props.formData[39].effectiveDate
+  })
+
+  return (
+    <div>
+      <h3>Effective Date</h3>
+      <span>Effective Date Of This Agreement</span>
+      <label for="effectiveDate">Start date:</label>
+      <input onChange={(e)=>changeDate(e)} type="date" id="effectiveDate" name="effectiveDate" />
+    </div>
+  )
 
 }
 

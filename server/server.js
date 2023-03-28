@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(express.static(path.resolve(__dirname, '../build')));
 
-app.get("/data", async (req, res) => {
+app.get("/login", async (req, res) => {
   // const pdfDoc = await PDFDocument.load(fs.readFileSync(templatePDFLocation))
   // const pdfBytes = await pdfDoc.save()
   // await fs.writeFile(test.pdf, )  
@@ -23,16 +23,14 @@ app.get("/data", async (req, res) => {
 })
 
 app.post("/create", fileController.fillPDF, async (req, res) => {
-  res.send(res.locals.fieldNames)
-  // res.setHeader('Content-Type', 'application/pdf');
-  // res.sendFile(path.join(__dirname, outputPDFLocation))
+  // res.send(res.locals.fieldNames)
+  res.setHeader('Content-Type', 'application/pdf');
+  res.sendFile(path.join(__dirname, outputPDFLocation))
 })
 
 app.get("*", async (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'))
 })
-
-
 
 
 app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
