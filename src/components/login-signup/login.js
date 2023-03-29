@@ -19,6 +19,7 @@ const LoginPage = (props) => {
       console.log(data)
       if (data.authenticated === true) {
         props.setIsAuthenticated(true)
+        props.setCurrentUser({username: data.username, userID: data.userID})
         navigate("/profile")
       }
     })

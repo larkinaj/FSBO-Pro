@@ -35,8 +35,8 @@ app.post("/create", fileController.fillPDF, async (req, res) => {
   res.sendFile(res.locals.filePath)
 })
 
-app.get("/user-documents", sessionController.verifyUser, (req, res) => {
-  res.status(200).json(req.session)
+app.post("/user-documents", fileController.sendDocuments, (req, res) => {
+  res.status(200).json(res.locals.documentList)
 })
 
 app.get("*", async (req, res) => {

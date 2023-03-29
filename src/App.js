@@ -1,8 +1,8 @@
 import React, { useState, Component, useEffect } from "react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
-import OpenStreetMap from "./components/openstreetmap";
-import Mapbox  from "./components/mapbox";
+import OpenStreetMap from "./components/postings/openstreetmap";
+import Mapbox  from "./components/postings/mapbox";
 import NotFound from "./components/not-found";
 import PurchaseAgreeFill from "./components/purchase-agreement-fill";
 import LoginPage from "./components/login-signup/login"
@@ -15,6 +15,7 @@ function App(props) {
   const [ currentUser, setCurrentUser ] = useState({username: '', userID: ''})
   
   useEffect(() => {
+    console.log('useEffect in App ')
     fetch('http://localhost:3000/verify')
     .then((res)=>res.json())
     .then((data)=>{
@@ -26,9 +27,10 @@ function App(props) {
       } else if (!data.authenticated) {
         setIsAuthenticated(false)
       }
-      console.log(data)
+      console.log('useEffect in App: ', data)
     })
   }, [isAuthenticated])
+
   if (isAuthenticated === 'pending') {
     return (
       <div className="router">
@@ -67,6 +69,16 @@ function App(props) {
               }
             />
             <Route
+              path="/profile/documents/:id"
+              element={
+                <PurchaseAgreeFill 
+                  setIsAuthenticated={setIsAuthenticated}
+                  isAuthenticated={isAuthenticated}
+                  currentUser={currentUser}
+                />
+              }
+            />
+            <Route
               exact path="/open-street"
               element={<OpenStreetMap />}
             />
@@ -76,6 +88,7 @@ function App(props) {
                 <LoginPage 
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
+                  setCurrentUser={setCurrentUser}
                 />
               }
             />
@@ -99,11 +112,18 @@ function App(props) {
                 <LoginPage 
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
+                  setCurrentUser={setCurrentUser}
                 />}
             />
             <Route 
               exact path='/login'
-              element={<LoginPage />}
+              element={
+                <LoginPage 
+                  setIsAuthenticated={setIsAuthenticated}
+                  isAuthenticated={isAuthenticated}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
             />
             <Route 
               exact path='*'

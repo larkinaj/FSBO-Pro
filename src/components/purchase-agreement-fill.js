@@ -359,6 +359,7 @@ const PurchaseAgreeFill = (props) => {
   const [nextButton, setNextButton] = useState(1)
 
   useEffect(() => {
+    console.log('useEffect in Purchase-Agreement')
     fetch('http://localhost:3000/verify')
     .then((res)=>res.json())
     .then((data)=>{

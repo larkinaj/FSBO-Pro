@@ -142,6 +142,23 @@ fileController.fillPDF = async (req, res, next) => {
 
 fileController.editPDF = async (req, res, next) => {
 
+
+
+};
+
+fileController.sendDocuments = async (req, res, next) => {
+  console.log('req.body editPDF', req.body)
+  const documentSendQuery = {
+    text: 'SELECT * FROM documents WHERE user_id = $1',
+    values: [req.body.userID]
+  };
+  if (req.body.userID) {
+    const documentSend = await db.query(documentSendQuery.text, documentSendQuery.values)
+    res.locals.documentList = documentSend.rows
+    return next()
+  }
+  res.locals.documentList = [];
+  return next()
 };
 
 fileController.createPDF = async (req, res, next) => {

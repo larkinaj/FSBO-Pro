@@ -3,15 +3,31 @@ import React, { useState, Component, useEffect } from "react";
 import PurchaseAgreeFill from "../purchase-agreement-fill";
 
 const Profile = (props) => {
-  console.log('PROFILE PROPS', props)
   const navigate = useNavigate();
 
   const [userDocuments, setUserDocuments] = useState(['test'])
 
+  useEffect(() => {
+    console.log('useEffect in Profile')
+    fetch('http://localhost:3000/user-documents', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(props.currentUser)
+    })
+    .then((res)=>res.json())
+    .then((data)=>{
+      console.log('Documents POST request', data)
+      setUserDocuments(data)
+    })
+  }, [])
+
+
+
   let documentRenders = userDocuments.map((el)=>{
     return (
       <div>
-        <h3>{el}</h3>
+        <h3>{el.title}</h3>
+        <button>Select</button>
       </div>
     )
   })
