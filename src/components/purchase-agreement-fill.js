@@ -417,10 +417,11 @@ const PurchaseAgreeFill = (props) => {
   }
 
   const createPDF = async () => {
-    
+    const copyOfFormData = structuredClone(formData)
+    copyOfFormData.push(props.currentUser)
     fetch('http://localhost:3000/create', {
       method: 'POST',
-      body: JSON.stringify(formData),
+      body: JSON.stringify(copyOfFormData),
       headers: {
         'Content-Type': 'application/json'
       },

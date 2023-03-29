@@ -155,24 +155,7 @@ const dateConverter = (date) => {
   return newDate
 }
 
-const checkPropertyType = (type) => {
-  switch(type) {
-    case 'singleFamily':
-      form.getCheckBox('SingleFamily Home').check()
-      break;
-    case 'condominium': 
-      form.getCheckBox('Condominium').check()
-      break;
-    case 'plannedUnit':
-      form.getCheckBox('Planned Unit Development PUD').check()
-      break;
-    case 'duplex':
-      form.getCheckBox('Duplex').check()
-      break;
-  }
-}
 
 module.exports = { 
-  dateConverter,
-  checkPropertyType
+  dateConverter
  }

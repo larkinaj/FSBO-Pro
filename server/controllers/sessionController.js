@@ -16,23 +16,26 @@ sessionController.createUser = async (req, res, next) => {
 
 sessionController.verifyUser = async (req, res, next) => {
   //req.session.authenticated = true
-  console.log('verifyUser')
+  console.log('verifyUser middleware')
+  //console.log('session!!', req.session)
   if (req.session.authenticated) {
     return next()
   }
-  console.log('req.session ', req.session)
-  console.log('req.sessionID', req.sessionID)
-  res.status(200).json({ authenticated: false })
+  req.session.authenticated = false;
+  // res.status(200).json({ authenticated: false })
+  return res.status(200).json(req.session)
 
 }
 
 sessionController.createSession = async (req, res, next) => {
+  console.log('createSession middleware')
   const { userLogin, passLogin } = req.body
   const params = [userLogin]
   const userList = await db.query('SELECT * FROM users WHERE email = $1', params)
-  console.log(userList.rows[0])
   if (!userList.rows[0] || userList.rows[0].password !== passLogin) {
-    return res.status(404).json({authenticated: false})
+    // return res.status(404).json({authenticated: false})
+    req.session.authenticated = false;
+    return res.status(404).json(req.session)
   }
   if (userList.rows[0].password === passLogin) {
     req.session.authenticated = true

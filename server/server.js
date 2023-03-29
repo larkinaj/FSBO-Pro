@@ -6,8 +6,6 @@ const session = require('express-session')
 
 const fileController = require('./controllers/controller');
 const sessionController = require('./controllers/sessionController')
-const templatePDFLocation = "./pdf-files/VA-Residential-Purchase-Agreement.pdf";
-const outputPDFLocation = './pdf-files/example.pdf'
 
 
 const app = express();
@@ -24,18 +22,21 @@ app.use(session({
 app.use(express.static(path.resolve(__dirname, '../build')))
 
 app.post("/login", sessionController.createSession, (req, res) => {
-  res.status(200).json({ authenticated: true, session: req.session })
+  res.status(200).json(req.session)
 })
 
 app.get("/verify", sessionController.verifyUser, (req, res) => {
-  res.status(200).json({ authenticated: true, session: req.session })
+  res.status(200).json(req.session)
 })
 
 app.post("/create", fileController.fillPDF, async (req, res) => {
-  let folder = ''
   res.setHeader('Content-Type', 'application/pdf');
-  //res.download(path.join(__dirname, templatePDFLocation))
-  res.sendFile(path.join(__dirname, outputPDFLocation))
+  //res.download(res.locals.filePath)
+  res.sendFile(res.locals.filePath)
+})
+
+app.get("/user-documents", sessionController.verifyUser, (req, res) => {
+  res.status(200).json(req.session)
 })
 
 app.get("*", async (req, res) => {

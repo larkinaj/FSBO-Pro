@@ -12,22 +12,23 @@ import './App.css';
 
 function App(props) {
   const [isAuthenticated, setIsAuthenticated] = useState('pending');
-  const [ currentUser, setCurrentUser ] = useState()
+  const [ currentUser, setCurrentUser ] = useState({username: '', userID: ''})
   
   useEffect(() => {
     fetch('http://localhost:3000/verify')
     .then((res)=>res.json())
     .then((data)=>{
       console.log('Here is App.js')
+      console.log(data)
       if (data.authenticated) {
-        setCurrentUser(data.session.username)
+        setCurrentUser({username: data.username, userID: data.userID})
         setIsAuthenticated(true)
       } else if (!data.authenticated) {
         setIsAuthenticated(false)
       }
       console.log(data)
     })
-  })
+  }, [isAuthenticated])
   if (isAuthenticated === 'pending') {
     return (
       <div className="router">
@@ -61,6 +62,7 @@ function App(props) {
                 <PurchaseAgreeFill 
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
+                  currentUser={currentUser}
                 />
               }
             />

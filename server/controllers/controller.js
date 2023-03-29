@@ -2,19 +2,20 @@ const fs = require('fs');
 const { readFile, writeFile } = require('fs/promises');
 const path = require('path');
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
-const templatePDFLocation = "../pdf-files/VA-Residential-Purchase-Agreement.pdf";
-const outputPDFLocation = '../pdf-files/example.pdf'
+const templatePDFLocation = "../pdf-files/templates/VA-Residential-Purchase-Agreement.pdf";
 const { dateConverter } = require('../helperFunctions/helper.js')
+const db = require('../models/database');
 
 const fileController = {};
 
 fileController.fillPDF = async (req, res, next) => {
   const pdfDoc = await PDFDocument.load(fs.readFileSync(path.join(__dirname, templatePDFLocation)))
+  const form = pdfDoc.getForm();
 
-  const fieldNames = pdfDoc
-    .getForm()
-    .getFields()
-    .map((f) => f.getName())
+  // const fieldNames = pdfDoc
+  //   .getForm()
+  //   .getFields()
+  //   .map((f) => f.getName())
   // console.log(fieldNames)
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -36,9 +37,7 @@ fileController.fillPDF = async (req, res, next) => {
   // })
 ////////////////////////////////////////////////////////////////////////////////////
 
-  const form = pdfDoc.getForm();
 
-  //form.getTextField('made on').setText(req.body[39].effectiveDate.slice(5))
   form.getTextField('made on').setText(dateConverter(req.body[39].effectiveDate))
   form.getTextField('20').setText(req.body[39].effectiveDate.slice(2, 10 - 6))
   form.getTextField('Buyer').setText(req.body[7].buyerFName + ' ' + req.body[7].buyerLName)
@@ -113,54 +112,36 @@ fileController.fillPDF = async (req, res, next) => {
   // form.getTextField('20').setText('23')
   // form.getTextField('20').setText('23')
   // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
-  // form.getTextField('20').setText('23')
 
-
-
+  const { userID }  = req.body[40]
   const pdfBytes = await pdfDoc.save()
 
-  fs.writeFileSync(path.join(__dirname, outputPDFLocation), pdfBytes)
+  const documentInsertQuery = {
+    text: 'INSERT INTO documents (user_id, title, file_path, created_at) VALUES ($1, $2, $3, $4) RETURNING id',
+    values: [userID, 'Residential Purchase Agreement', '/path/to/my/document', 'NOW()'],
+  };
+  const documentInsert = await db.query(documentInsertQuery.text, documentInsertQuery.values)
+  const outputPDFLocation = `../pdf-files/userID${userID}/docID${documentInsert.rows[0].id}`
+  const documentUpdateQuery = {
+    text: 'UPDATE documents SET file_path = $1 WHERE id = $2',
+    values: [outputPDFLocation + '/version1.pdf', documentInsert.rows[0].id]
+  };
+  const pathUpdate = await db.query(documentUpdateQuery.text, documentUpdateQuery.values)
+  const documentRevisionQuery = {
+    text: "INSERT INTO document_revisions (document_id, user_id, file_path, revision_number, revision_date, comments) VALUES ($1, $2, $3, $4, $5, $6)",
+    values: [documentInsert.rows[0].id, userID, outputPDFLocation + '/version1.pdf', 1, 'NOW()', 'Initial version']
+  };
+  const firstRevision = await db.query(documentRevisionQuery.text, documentRevisionQuery.values)
+
+  fs.mkdirSync(path.join(__dirname, outputPDFLocation), {recursive: true})
+  fs.writeFileSync(path.join(__dirname, outputPDFLocation + '/version1.pdf'), pdfBytes)
+  res.locals.filePath = path.join(__dirname, outputPDFLocation + '/version1.pdf')
 
   return next();
+};
+
+fileController.editPDF = async (req, res, next) => {
+
 };
 
 fileController.createPDF = async (req, res, next) => {
