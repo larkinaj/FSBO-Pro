@@ -16,7 +16,6 @@ const Document = (props) => {
   const viewDocument = () => {
     let path;
     for (let i = 0; i < props.userDocuments.length; i++) {
-      console.log(props.userDocuments[i])
       if (props.userDocuments[i].id === Number(id)) path = props.userDocuments[i].file_path
     }
     fetch('http://localhost:3000/api/profile/send-document', {
@@ -47,44 +46,30 @@ const Document = (props) => {
     .then((res)=>res.json())
     .then((data) => {
       if (data.userFound === true) {
-        console.log('SUCCESS')
         setSharedStatus(`Document shared with ${data.firstName}!`)
       }
       else {
         setSharedStatus(`Could not find user with email address ${event.target.sharedUser.value}`)
-        console.log('FAILURE')
       }
     })
   }
 
   const editPDF = () => {
-    let path;
-    for (let i = 0; i < props.userDocuments.length; i++) {
-      console.log(props.userDocuments[i])
-      if (props.userDocuments[i].id === Number(id)) path = props.userDocuments[i].file_path
-    }
     fetch('/api/profile/edit-document', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        sharedUser: event.target.sharedUser.value,
         docID: id,
-        ownerID: props.currentUser.userID,
-        ownerFName: props.currentUser.firstName
       })
     })
     .then((res)=>res.json())
     .then((data) => {
-      if (data.userFound === true) {
-        console.log('SUCCESS')
-        setSharedStatus(`Document shared with ${data.firstName}!`)
-      }
-      else {
-        setSharedStatus(`Could not find user with email address ${event.target.sharedUser.value}`)
-        console.log('FAILURE')
-      }
+      // const retrievedData = data.revisions[0].form_data.formData.slice(0, data.revisions[0].form_data.formData.length - 1)
+      const retrievedData = data.revisions[0].form_data.formData
+      retrievedData[40].docID = id;
+      props.setFormData(retrievedData)
+      navigate("/profile/edit")
     })
-    navigate("/profile/create")
   }
 
   useEffect(() => {
@@ -134,4 +119,5 @@ const Document = (props) => {
     </div>
   )
 };
+
 export default Document;

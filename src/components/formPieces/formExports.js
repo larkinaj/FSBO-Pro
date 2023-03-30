@@ -7,10 +7,13 @@ const PropertyType = (props) => {
     document.getElementById(newState[0].type).checked = true;
     props.setFormData(newState)
   }
+  // if (props.formData[0].type !== '') {
+  //   document.getElementById(props.formData[0].type).checked = true;
+  // }
   useEffect(() => {
     if (props.formData[0].type !== '') {
       document.getElementById(props.formData[0].type).checked = true;
-    } 
+    }
   })
 
   return (

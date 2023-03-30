@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState, Component, useEffect } from "react";
 import PurchaseAgreeFill from "../purchase-agreement-fill";
+import blankForm from '../helperFunctions/helper';
 
 const Profile = (props) => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Profile = (props) => {
   }, [])
 
   const newDocument = () => {
+    props.setFormData(blankForm)
     navigate("/profile/create")
   }
 

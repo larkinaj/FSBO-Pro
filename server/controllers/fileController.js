@@ -143,13 +143,26 @@ fileController.fillPDF = async (req, res, next) => {
 
 
 fileController.editPDF = async (req, res, next) => {
+  console.log('editPDF middleware')
   const editDocumentQuery = {
-    text: 'SELECT documents.title, document_revisions.revision_number, document_revisions.revision_date, document_revisions.comments FROM documents JOIN document_revisions ON documents.id = document_revisions.document_id WHERE documents.id = $1 ORDER BY document_revisions.revision_number ASC',
-    values: [req.body]
+    text: 'SELECT documents.title, document_revisions.revision_number, document_revisions.revision_date, document_revisions.comments, document_revisions.form_data FROM documents JOIN document_revisions ON documents.id = document_revisions.document_id WHERE documents.id = $1 ORDER BY document_revisions.revision_number DESC',
+    values: [req.body.docID]
   };
-  
-  
+  const editDocument = await db.query(editDocumentQuery.text, editDocumentQuery.values)
+  res.locals.revisions = editDocument.rows
+  return next()
+};
 
+fileController.saveEdit = async (req, res, next) => {
+  console.log('saveEdit middleware')
+  const saveEditQuery = {
+    text: 'SELECT documents.title, document_revisions.revision_number, document_revisions.revision_date, document_revisions.comments, document_revisions.form_data FROM documents JOIN document_revisions ON documents.id = document_revisions.document_id WHERE documents.id = $1 ORDER BY document_revisions.revision_number DESC',
+    values: [req.body.docID]
+  };
+  // ADD REVISION NUMBER TO DOCUMENT INFO THAT IS SENT TO THE FRONTEND, THAT WAY I KNOW WHICH REVISION NUMBER TO ADD HERE
+  const editDocument = await db.query(editDocumentQuery.text, editDocumentQuery.values)
+  res.locals.revisions = editDocument.rows
+  return next()
 };
 
 fileController.sendDocumentList = async (req, res, next) => {

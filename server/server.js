@@ -59,9 +59,16 @@ app.post("/api/profile/share-document", fileController.shareDocument, (req, res)
   res.status(200).json({userFound: res.locals.userFound, firstName: res.locals.firstName})
 })
 
-app.post("/api/profile/edit-document", (req, res) => {
-  res.sendFile(path.join(__dirname, '/server/', req.body.path))
+app.post("/api/profile/edit-document", fileController.editPDF, (req, res) => {
+  res.status(200).json({revisions: res.locals.revisions})
 })
+
+app.post("/api/profile/save-edit", fileController.saveEdit, (req, res) => {
+  res.setHeader('Content-Type', 'application/pdf');
+  res.status(200).json(res.locals.filePath)
+})
+
+
 
 app.get("*", async (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'))
