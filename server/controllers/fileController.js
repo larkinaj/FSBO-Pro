@@ -6,6 +6,7 @@ const templatePDFLocation = "../pdf-files/templates/VA-Residential-Purchase-Agre
 const { dateConverter } = require('../helperFunctions/helper.js')
 const db = require('../models/database');
 
+
 const fileController = {};
 
 fileController.fillPDF = async (req, res, next) => {
@@ -128,8 +129,8 @@ fileController.fillPDF = async (req, res, next) => {
   };
   const pathUpdate = await db.query(documentUpdateQuery.text, documentUpdateQuery.values)
   const documentRevisionQuery = {
-    text: "INSERT INTO document_revisions (document_id, user_id, file_path, revision_number, revision_date, comments) VALUES ($1, $2, $3, $4, $5, $6)",
-    values: [documentInsert.rows[0].id, userID, outputPDFLocation + '/version1.pdf', 1, 'NOW()', 'Initial version']
+    text: "INSERT INTO document_revisions (document_id, user_id, file_path, revision_number, revision_date, comments, form_data) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+    values: [documentInsert.rows[0].id, userID, outputPDFLocation + '/version1.pdf', 1, 'NOW()', 'Initial version', {formData: req.body}]
   };
   const firstRevision = await db.query(documentRevisionQuery.text, documentRevisionQuery.values)
 
@@ -140,24 +141,55 @@ fileController.fillPDF = async (req, res, next) => {
   return next();
 };
 
+
 fileController.editPDF = async (req, res, next) => {
-
-
+  const editDocumentQuery = {
+    text: 'SELECT documents.title, document_revisions.revision_number, document_revisions.revision_date, document_revisions.comments FROM documents JOIN document_revisions ON documents.id = document_revisions.document_id WHERE documents.id = $1 ORDER BY document_revisions.revision_number ASC',
+    values: [req.body]
+  };
+  
+  
 
 };
 
-fileController.sendDocuments = async (req, res, next) => {
-  console.log('req.body editPDF', req.body)
+fileController.sendDocumentList = async (req, res, next) => {
+  console.log('sendDocuments middleware')
   const documentSendQuery = {
     text: 'SELECT * FROM documents WHERE user_id = $1',
-    values: [req.body.userID]
+    values: [req.session.userID]
   };
-  if (req.body.userID) {
-    const documentSend = await db.query(documentSendQuery.text, documentSendQuery.values)
-    res.locals.documentList = documentSend.rows
+  const sharedDocQuery = {
+    text: 'SELECT * FROM shared_documents JOIN documents ON documents.id = shared_documents.document_id WHERE shared_documents.shared_with_id = $1',
+    values: [req.session.userID]
+  } 
+  if (req.session.userID) {
+    const ownDocumentSend = await db.query(documentSendQuery.text, documentSendQuery.values)
+    res.locals.documentList = ownDocumentSend.rows
+
+    const sharedDocumentSend = await db.query(sharedDocQuery.text, sharedDocQuery.values)
+    res.locals.documentList = res.locals.documentList.concat(sharedDocumentSend.rows)
     return next()
   }
   res.locals.documentList = [];
+  return next()
+};
+
+fileController.shareDocument = async (req, res, next) => {
+  const { sharedUser } = req.body
+  const params = [sharedUser]
+  const findUser = await db.query('SELECT * FROM users WHERE email = $1', params)
+  if (!findUser.rows[0]) {
+    res.locals.userFound = false;
+    res.locals.firstName = '';
+    return next()
+  }
+  const shareDocumentQuery = {
+    text: 'INSERT INTO shared_documents (document_id, owner_id, shared_with_id, owner_first_name, shared_first_name) VALUES ($1, $2, $3, $4, $5)',
+    values: [req.body.docID, req.body.ownerID, findUser.rows[0].id, req.body.ownerFName, findUser.rows[0].first_name]
+  };
+  const shareDocument = await db.query(shareDocumentQuery.text, shareDocumentQuery.values)
+  res.locals.userFound = true;
+  res.locals.firstName = findUser.rows[0].first_name;
   return next()
 };
 

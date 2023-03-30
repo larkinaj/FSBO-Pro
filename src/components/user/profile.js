@@ -5,48 +5,66 @@ import PurchaseAgreeFill from "../purchase-agreement-fill";
 const Profile = (props) => {
   const navigate = useNavigate();
 
-  const [userDocuments, setUserDocuments] = useState(['test'])
-
   useEffect(() => {
     console.log('useEffect in Profile')
-    fetch('http://localhost:3000/user-documents', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(props.currentUser)
-    })
-    .then((res)=>res.json())
-    .then((data)=>{
-      console.log('Documents POST request', data)
-      setUserDocuments(data)
-    })
+    // fetch('http://localhost:3000/user-documents', {
+    //   method: 'POST',
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: JSON.stringify(props.currentUser)
+    // })
+    // .then((res)=>res.json())
+    // .then((data)=>{
+    //   console.log('Documents POST request', data)
+    //   props.setUserDocuments(data)
+    // })
   }, [])
 
-
-
-  let documentRenders = userDocuments.map((el)=>{
-    return (
-      <div>
-        <h3>{el.title}</h3>
-        <button>Select</button>
-      </div>
-    )
-  })
-
-  const handleClick = () => {
+  const newDocument = () => {
     navigate("/profile/create")
   }
+
+  const selectDoc = (id) => {
+    navigate("/profile/documents/" + id)
+  }
+
+
+  let ownDocuments = props.userDocuments.map((el) => {
+    if (!el.shared_with_id) {
+      return (
+        <div>
+          <h3>{el.title}</h3>
+          <button onClick={()=>selectDoc(el.id)}>Select</button>
+        </div>
+      )
+    }
+  })
+
+  let sharedDocuments = props.userDocuments.map((el) => {
+    if (el.shared_with_id) {
+      return (
+        <div>
+          <h3>{el.title}</h3>
+          <button onClick={()=>selectDoc(el.id)}>Select</button>
+        </div>
+      )
+    }
+  })
 
   return (
     <div>
       <div>
-        <h1>WELCOME {props.currentUser.username}</h1>
+        <h1>WELCOME {props.currentUser.firstName}</h1>
       </div>
       <div>
         <h3>Your Documents</h3>
-        {documentRenders}
+        {ownDocuments}
       </div>
       <div>
-        <button onClick={handleClick}>Create New Document</button>
+        <h3>Documents Shared With You</h3>
+        {sharedDocuments}
+      </div>
+      <div>
+        <button onClick={newDocument}>Create New Document</button>
       </div>
     </div>
   )

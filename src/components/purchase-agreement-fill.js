@@ -360,7 +360,7 @@ const PurchaseAgreeFill = (props) => {
 
   useEffect(() => {
     console.log('useEffect in Purchase-Agreement')
-    fetch('http://localhost:3000/verify')
+    fetch('http://localhost:3000/api/verify')
     .then((res)=>res.json())
     .then((data)=>{
       console.log('Here is purchase-agreement component')
@@ -427,10 +427,7 @@ const PurchaseAgreeFill = (props) => {
         'Content-Type': 'application/json'
       },
     })
-    .then(res => {
-      console.log(res)
-      return res.blob()
-    })
+    .then(res => res.blob())
     .then(blob => {
       const fileURL = window.URL.createObjectURL(blob);
       window.open(fileURL);

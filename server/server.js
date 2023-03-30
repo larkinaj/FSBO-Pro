@@ -4,7 +4,7 @@ const express = require('express');
 const fs = require('fs')
 const session = require('express-session')
 
-const fileController = require('./controllers/controller');
+const fileController = require('./controllers/fileController');
 const sessionController = require('./controllers/sessionController')
 
 
@@ -21,12 +21,28 @@ app.use(session({
 }))
 app.use(express.static(path.resolve(__dirname, '../build')))
 
-app.post("/login", sessionController.createSession, (req, res) => {
-  res.status(200).json(req.session)
+app.post("/login", sessionController.createSession, fileController.sendDocumentList, (req, res) => {
+  const userData = {
+    session: req.session,
+    documents: res.locals.documentList
+  }
+  res.status(200).json(userData)
 })
 
-app.get("/verify", sessionController.verifyUser, (req, res) => {
-  res.status(200).json(req.session)
+app.post("/api/signup", sessionController.createUser, sessionController.createSession, (req, res) => {
+  const userData = {
+    session: req.session,
+    documents: res.locals.documentList
+  }
+  res.status(200).json(userData)
+})
+
+app.get("/api/verify", sessionController.verifyUser, fileController.sendDocumentList, (req, res) => {
+  const userData = {
+    session: req.session,
+    documents: res.locals.documentList
+  }
+  res.status(200).json(userData)
 })
 
 app.post("/create", fileController.fillPDF, async (req, res) => {
@@ -35,17 +51,23 @@ app.post("/create", fileController.fillPDF, async (req, res) => {
   res.sendFile(res.locals.filePath)
 })
 
-app.post("/user-documents", fileController.sendDocuments, (req, res) => {
-  res.status(200).json(res.locals.documentList)
+app.post("/api/profile/send-document", (req, res) => {
+  res.sendFile(path.join(__dirname, '/server/', req.body.path))
+})
+
+app.post("/api/profile/share-document", fileController.shareDocument, (req, res) => {
+  res.status(200).json({userFound: res.locals.userFound, firstName: res.locals.firstName})
+})
+
+app.post("/api/profile/edit-document", (req, res) => {
+  res.sendFile(path.join(__dirname, '/server/', req.body.path))
 })
 
 app.get("*", async (req, res) => {
   res.sendFile(path.join(__dirname, '../build/index.html'))
 })
 
-
 app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
-
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);

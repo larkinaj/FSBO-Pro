@@ -17,24 +17,34 @@ const LoginPage = (props) => {
     .then((res)=>res.json())
     .then((data)=>{
       console.log(data)
-      if (data.authenticated === true) {
+      if (data.session.authenticated === true) {
         props.setIsAuthenticated(true)
-        props.setCurrentUser({username: data.username, userID: data.userID})
+        props.setCurrentUser({firstName: data.session.firstName, userID: data.session.userID})
+        props.setUserDocuments(data.documents)
         navigate("/profile")
       }
     })
   }
+  const createAccount = (event) => {
+    navigate("/signup")
+  }
   return (
     <div>
-      {/* <form action="/" onSubmit={loginUser}> */}
-      <form onSubmit={loginUser}>
-        <input type="text" id="userLogin" name="userLogin" />
-        <label for="userLogin">Username</label><br />
-        <input type="text" id="passLogin" name="passLogin" />
-        <label for="passLogin">Password</label><br />
-        <input type="submit" value="Submit"></input>
-      </form>
+      <div>
+        <form onSubmit={loginUser}>
+          <input type="text" id="userLogin" name="userLogin" />
+          <label for="userLogin">Username</label><br />
+          <input type="text" id="passLogin" name="passLogin" />
+          <label for="passLogin">Password</label><br />
+          <input type="submit" value="LOG IN"></input>
+        </form>
+      </div>
+      <div>
+        <button onClick={createAccount}>Create Account</button>
+        <a href="/signup">Create Account</a>
+      </div>
     </div>
+
   )
 }
 

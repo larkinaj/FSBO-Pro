@@ -6,28 +6,31 @@ import Mapbox  from "./components/postings/mapbox";
 import NotFound from "./components/not-found";
 import PurchaseAgreeFill from "./components/purchase-agreement-fill";
 import LoginPage from "./components/login-signup/login"
-import Protected from "./components/user/protected";
+import SignupPage from "./components/login-signup/signup";
 import Profile from "./components/user/profile";
+import Document from "./components/user/document";
 import './App.css';
 
 function App(props) {
   const [isAuthenticated, setIsAuthenticated] = useState('pending');
-  const [ currentUser, setCurrentUser ] = useState({username: '', userID: ''})
+  const [currentUser, setCurrentUser] = useState({firstName: '', userID: ''})
+  const [userDocuments, setUserDocuments] = useState(['No Documents'])
+  const [currentDocument, setCurrentDocument] = useState()
+  // const [formData, setFormData] = useState([])
   
   useEffect(() => {
-    console.log('useEffect in App ')
-    fetch('http://localhost:3000/verify')
+    fetch('http://localhost:3000/api/verify')
     .then((res)=>res.json())
     .then((data)=>{
-      console.log('Here is App.js')
-      console.log(data)
-      if (data.authenticated) {
-        setCurrentUser({username: data.username, userID: data.userID})
+      console.log('useEffect in App: ', data)
+      if (data.session.authenticated) {
+        setCurrentUser({firstName: data.session.firstName, userID: data.session.userID})
+        setUserDocuments(data.documents)
         setIsAuthenticated(true)
-      } else if (!data.authenticated) {
+      } else if (!data.session.authenticated) {
         setIsAuthenticated(false)
       }
-      console.log('useEffect in App: ', data)
+
     })
   }, [isAuthenticated])
 
@@ -49,13 +52,20 @@ function App(props) {
                 <LoginPage 
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
+                  setCurrentUser={setCurrentUser}
+                  setUserDocuments={setUserDocuments}
                 />
               }
             />
             <Route
-              path="/profile"
+              exact path="/profile"
               element={
-                <Profile currentUser={currentUser}/>
+                <Profile 
+                  currentUser={currentUser}
+                  userDocuments={userDocuments}
+                  setUserDocuments={setUserDocuments}
+                  setCurrentDocument={setCurrentDocument}
+                />
               }
             />
             <Route
@@ -69,12 +79,28 @@ function App(props) {
               }
             />
             <Route
-              path="/profile/documents/:id"
+              path="/profile/edit"
               element={
                 <PurchaseAgreeFill 
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
                   currentUser={currentUser}
+                  // setFormData={setFormData}
+                  // formData={formData}
+                />
+              }
+            />
+            <Route
+              exact path="/profile/documents/:id"
+              element={
+                <Document
+                  setIsAuthenticated={setIsAuthenticated}
+                  isAuthenticated={isAuthenticated}
+                  currentUser={currentUser}
+                  userDocuments={userDocuments}
+                  currentDocument={currentDocument}
+                  setUserDocuments={setUserDocuments}
+                  setCurrentDocument={setCurrentDocument}
                 />
               }
             />
@@ -89,11 +115,27 @@ function App(props) {
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
                   setCurrentUser={setCurrentUser}
+                  setUserDocuments={setUserDocuments}
+                />
+              }
+            />
+            <Route 
+              exact path='/signup'
+              element={
+                <SignupPage 
+                  setIsAuthenticated={setIsAuthenticated}
+                  isAuthenticated={isAuthenticated}
+                  setCurrentUser={setCurrentUser}
+                  setUserDocuments={setUserDocuments}
                 />
               }
             />
             <Route
               path="*"
+              element={<NotFound />}
+            />
+            <Route
+              path="/404"
               element={<NotFound />}
             />
           </Routes>
@@ -113,6 +155,7 @@ function App(props) {
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
                   setCurrentUser={setCurrentUser}
+                  setUserDocuments={setUserDocuments}
                 />}
             />
             <Route 
@@ -122,6 +165,18 @@ function App(props) {
                   setIsAuthenticated={setIsAuthenticated}
                   isAuthenticated={isAuthenticated}
                   setCurrentUser={setCurrentUser}
+                  setUserDocuments={setUserDocuments}
+                />
+              }
+            />
+            <Route 
+              exact path='/signup'
+              element={
+                <SignupPage 
+                  setIsAuthenticated={setIsAuthenticated}
+                  isAuthenticated={isAuthenticated}
+                  setCurrentUser={setCurrentUser}
+                  setUserDocuments={setUserDocuments}
                 />
               }
             />
