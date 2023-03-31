@@ -25,6 +25,16 @@ CREATE TABLE shared_documents (
   FOREIGN KEY (shared_with_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE document_revisions (
+  id SERIAL PRIMARY KEY,
+  document_id INTEGER REFERENCES documents(id),
+  user_id INTEGER REFERENCES users(id),
+  file_path VARCHAR(255) NOT NULL,
+  revision_number INTEGER NOT NULL,
+  revision_date TIMESTAMP NOT NULL DEFAULT NOW(),
+  comments TEXT
+);
+
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
   "sess" json NOT NULL,
@@ -36,13 +46,3 @@ ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFE
 
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
-
-CREATE TABLE document_revisions (
-  id SERIAL PRIMARY KEY,
-  document_id INTEGER REFERENCES documents(id),
-  user_id INTEGER REFERENCES users(id),
-  file_path VARCHAR(255) NOT NULL,
-  revision_number INTEGER NOT NULL,
-  revision_date TIMESTAMP NOT NULL DEFAULT NOW(),
-  comments TEXT
-);

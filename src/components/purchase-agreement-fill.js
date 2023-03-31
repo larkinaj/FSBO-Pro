@@ -418,11 +418,12 @@ const PurchaseAgreeFill = (props) => {
     setNextButton(nextButton + 1)
   }
 
-  const createPDF = async () => {
+  const createPDF = async (event) => {
     const copyOfFormData = structuredClone(props.formData)
-
-    if (copyOfFormData === 41) {
-      fetch('http://localhost:3000/api/save-edit', {
+    console.log(copyOfFormData)
+    if (copyOfFormData.length === 41) {
+      copyOfFormData[40].comments = document.getElementById('submissionCommment').value
+      fetch('http://localhost:3000/api/profile/save-edit', {
       method: 'POST',
       body: JSON.stringify(copyOfFormData),
       headers: {
@@ -438,8 +439,10 @@ const PurchaseAgreeFill = (props) => {
     .catch((err) => console.error(err))
     }
 
-    if (copyOfFormData === 40) {
+    if (copyOfFormData.length === 40) {
       copyOfFormData.push(props.currentUser)
+      copyOfFormData[40].comments = document.getElementById('submissionCommment').value
+      if (document.getElementById('submissionCommment').value === '') copyOfFormData[40].comments = 'Initial version'
       fetch('http://localhost:3000/create', {
         method: 'POST',
         body: JSON.stringify(copyOfFormData),
@@ -469,10 +472,21 @@ const PurchaseAgreeFill = (props) => {
     <div>
       <h1>Virginia Residential Purchase and Sale Agreement</h1>
       <div>
-        {currentForm}
-        <button onClick={previousForm}>Previous Page</button>
-        <button onClick={nextForm}>Continue</button>
-        <button onClick={createPDF}>Save and Submit PDF</button>
+        <div>
+          {currentForm}
+          <button onClick={previousForm}>Previous Page</button>
+          <button onClick={nextForm}>Continue</button>
+        </div>
+        <div>
+          <input type="text" id="submissionCommment" name="submissionCommment" /><br />
+          <span>Submission Comments</span>
+          <button onClick={createPDF}>Save and Submit</button>
+          {/* <form onSubmit={createPDF}>
+            <input type="text" id="submissionCommment" name="submissionCommment" /><br />
+            <label for="submissionCommment">Submission Comments</label>
+            <input type="submit" value="Save and Submit"></input>
+          </form> */}
+        </div>
       </div>
       <div>
         <ol>

@@ -8,16 +8,6 @@ const Profile = (props) => {
 
   useEffect(() => {
     console.log('useEffect in Profile')
-    // fetch('http://localhost:3000/user-documents', {
-    //   method: 'POST',
-    //   headers: {'Content-Type': 'application/json'},
-    //   body: JSON.stringify(props.currentUser)
-    // })
-    // .then((res)=>res.json())
-    // .then((data)=>{
-    //   console.log('Documents POST request', data)
-    //   props.setUserDocuments(data)
-    // })
   }, [])
 
   const newDocument = () => {
@@ -29,33 +19,50 @@ const Profile = (props) => {
     navigate("/profile/documents/" + id)
   }
 
+  let uniqueDocuments = props.userDocuments.reduce((acc, curr) => {
+    for (let i = 0; i < acc.length; i++) {
+      if (acc[i].document_id === curr.document_id) {
+        return acc
+      }
+    }
+    acc.push(curr)
+    return acc
+  }, [])
 
-  let ownDocuments = props.userDocuments.map((el) => {
-    if (!el.shared_with_id) {
-      return (
+  let ownDocuments = uniqueDocuments.reduce((acc, curr) => {
+    if (!curr.shared_with_id) {
+      acc.push(
         <div>
-          <h3>{el.title}</h3>
-          <button onClick={()=>selectDoc(el.id)}>Select</button>
+          <h3>{curr.title}</h3>
+          <h3>docid:{curr.document_id}</h3>
+          <h3>{curr.revision_date}</h3>
+          <h3>rev#:{curr.revision_number}</h3>
+          <button onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
       )
     }
-  })
+    return acc
+  }, [])
 
-  let sharedDocuments = props.userDocuments.map((el) => {
-    if (el.shared_with_id) {
-      return (
+  let sharedDocuments = uniqueDocuments.reduce((acc, curr) => {
+    if (curr.shared_with_id) {
+      acc.push(
         <div>
-          <h3>{el.title}</h3>
-          <button onClick={()=>selectDoc(el.id)}>Select</button>
+          <h3>{curr.title}</h3>
+          <h3>docid:{curr.document_id}</h3>
+          <h3>{curr.revision_date}</h3>
+          <h3>rev#:{curr.revision_number}</h3>
+          <button onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
       )
     }
-  })
+    return acc
+  }, [])
 
   return (
     <div>
       <div>
-        <h1>WELCOME {props.currentUser.firstName}</h1>
+        <h1>Welcome {props.currentUser.firstName}</h1>
       </div>
       <div>
         <h3>Your Documents</h3>

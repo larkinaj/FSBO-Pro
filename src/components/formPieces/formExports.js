@@ -705,7 +705,7 @@ const PurchasePrice = (props) => {
     <div>
       <h3>Purchase Price</h3>
       <form>
-      <span>Numeric</span>
+        <span>Numeric</span>
         <div>$
           <input onChange={(e)=>changePrice(e)} type="number" step=".01" id="numericPrice" name="numericPrice" />
         </div>
@@ -838,14 +838,13 @@ const EffectiveDate = (props) => {
   })
 
   return (
-    <div>
+    <div className='formContainer'>
       <h3>Effective Date</h3>
       <span>Effective Date Of This Agreement</span>
       <label for="effectiveDate">Start date:</label>
       <input onChange={(e)=>changeDate(e)} type="date" id="effectiveDate" name="effectiveDate" />
     </div>
   )
-
 }
 
 const formExports = {

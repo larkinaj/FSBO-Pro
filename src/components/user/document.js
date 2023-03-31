@@ -9,15 +9,15 @@ const Document = (props) => {
   let docNotFound = true;
 
   for (let i = 0; i < props.userDocuments.length; i++) {
-    if (props.userDocuments[i].id === Number(id)) docNotFound = false;
+    if (props.userDocuments[i].document_id === Number(id)) docNotFound = false;
   }
   if (docNotFound === true) navigate("/404")
 
-  const viewDocument = () => {
-    let path;
-    for (let i = 0; i < props.userDocuments.length; i++) {
-      if (props.userDocuments[i].id === Number(id)) path = props.userDocuments[i].file_path
-    }
+  const viewDocument = (path) => {
+    // let path;
+    // for (let i = 0; i < props.userDocuments.length; i++) {
+    //   if (props.userDocuments[i].document_id === Number(id)) path = props.userDocuments[i].file_path
+    // }
     fetch('http://localhost:3000/api/profile/send-document', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -54,18 +54,19 @@ const Document = (props) => {
     })
   }
 
-  const editPDF = () => {
-    fetch('/api/profile/edit-document', {
+  const retrievePDF = () => {
+    fetch('/api/profile/retrieve-document', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        docID: id,
+      docID: id,
       })
     })
     .then((res)=>res.json())
     .then((data) => {
-      // const retrievedData = data.revisions[0].form_data.formData.slice(0, data.revisions[0].form_data.formData.length - 1)
       const retrievedData = data.revisions[0].form_data.formData
+      console.log('retrieved data', data.revisions)
+      retrievedData[40].latestRevision = data.revisions[0].revision_number
       retrievedData[40].docID = id;
       props.setFormData(retrievedData)
       navigate("/profile/edit")
@@ -81,20 +82,21 @@ const Document = (props) => {
     ]
 
     const currentDocEl = props.userDocuments.reduce((acc, curr)=>{
-      if (curr.id === Number(id)) {
-        acc = [(
+      if (curr.document_id === Number(id)) {
+        acc.push(
           <div>
             <div>
-              <h1>Document Info: </h1>
               <span>Title: {curr.title}</span>
-              <span>ID: {curr.id}</span>
-              <span>Created At: {curr.created_at}</span>
+              <span>ID: {curr.document_id}</span>
+              <span>Created At: {curr.revision_date}</span>
+              <span>Revision Number: {curr.revision_number}</span>
             </div>
+            <button onClick={()=>viewDocument(curr.file_path)}>View</button>
           </div>
-        )]
+        )
       }
       return acc
-    }, documentNotFound)
+    }, [])
     props.setCurrentDocument(currentDocEl)
   }, [])
 
@@ -102,12 +104,10 @@ const Document = (props) => {
 
   return (
     <div>
+      <h1>Document Info:</h1>
       {props.currentDocument}
       <div>
-        <button onClick={()=>viewDocument()}>View</button>
-      </div>
-      <div>
-        <button onClick={editPDF}>Edit Document</button>
+        <button onClick={retrievePDF}>Edit Document</button>
       </div>
       <div>
         <form onSubmit={(e)=>shareDocument(e)}>

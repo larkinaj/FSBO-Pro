@@ -35,7 +35,7 @@ const SignupPage = (props) => {
         <label for="lnameSignup">Last Name</label><br />
         <input type="text" id="userLogin" name="userLogin" />
         <label for="userLogin">Email</label><br />
-        <input type="text" id="passLogin" name="passLogin" />
+        <input type="password" id="passLogin" name="passLogin" />
         <label for="passLogin">Password</label><br />
         <input type="submit" value="CREATE ACCOUNT"></input>
       </form>

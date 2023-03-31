@@ -59,13 +59,13 @@ app.post("/api/profile/share-document", fileController.shareDocument, (req, res)
   res.status(200).json({userFound: res.locals.userFound, firstName: res.locals.firstName})
 })
 
-app.post("/api/profile/edit-document", fileController.editPDF, (req, res) => {
+app.post("/api/profile/retrieve-document", fileController.retrievePDF, (req, res) => {
   res.status(200).json({revisions: res.locals.revisions})
 })
 
 app.post("/api/profile/save-edit", fileController.saveEdit, (req, res) => {
   res.setHeader('Content-Type', 'application/pdf');
-  res.status(200).json(res.locals.filePath)
+  res.sendFile(res.locals.filePath)
 })
 
 

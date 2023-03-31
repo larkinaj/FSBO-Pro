@@ -34,7 +34,7 @@ const LoginPage = (props) => {
         <form onSubmit={loginUser}>
           <input type="text" id="userLogin" name="userLogin" />
           <label for="userLogin">Username</label><br />
-          <input type="text" id="passLogin" name="passLogin" />
+          <input type="password" id="passLogin" name="passLogin" />
           <label for="passLogin">Password</label><br />
           <input type="submit" value="LOG IN"></input>
         </form>
