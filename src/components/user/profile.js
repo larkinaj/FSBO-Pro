@@ -35,7 +35,8 @@ const Profile = (props) => {
         <div>
           <h3>{curr.title}</h3>
           <h3>docid:{curr.document_id}</h3>
-          <h3>{curr.revision_date}</h3>
+          <h3>Last Updated:{curr.revision_date}</h3>
+          <h3>Current update:{curr.comments}</h3>
           <h3>rev#:{curr.revision_number}</h3>
           <button onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
@@ -50,7 +51,8 @@ const Profile = (props) => {
         <div>
           <h3>{curr.title}</h3>
           <h3>docid:{curr.document_id}</h3>
-          <h3>{curr.revision_date}</h3>
+          <h3>Last Updated:{curr.revision_date}</h3>
+          <h3>Current update:{curr.comments}</h3>
           <h3>rev#:{curr.revision_number}</h3>
           <button onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>

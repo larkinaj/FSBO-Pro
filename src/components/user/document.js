@@ -90,6 +90,7 @@ const Document = (props) => {
               <span>ID: {curr.document_id}</span>
               <span>Created At: {curr.revision_date}</span>
               <span>Revision Number: {curr.revision_number}</span>
+              <span>Update: {curr.comments}</span>
             </div>
             <button onClick={()=>viewDocument(curr.file_path)}>View</button>
           </div>

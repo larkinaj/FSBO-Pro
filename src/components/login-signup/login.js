@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import './login.css'
 
 const LoginPage = (props) => {
   const navigate = useNavigate();
@@ -29,19 +30,16 @@ const LoginPage = (props) => {
     navigate("/signup")
   }
   return (
-    <div>
+    <div className="loginBox">
       <div>
-        <form onSubmit={loginUser}>
-          <input type="text" id="userLogin" name="userLogin" />
-          <label for="userLogin">Username</label><br />
-          <input type="password" id="passLogin" name="passLogin" />
-          <label for="passLogin">Password</label><br />
-          <input type="submit" value="LOG IN"></input>
+        <form onSubmit={loginUser} >
+          <div className="loginInputsDiv">
+            <input className="loginInputs" type="text" id="userLogin" name="userLogin" placeholder="Email Address"/>
+            <input className="loginInputs" type="password" id="passLogin" name="passLogin" placeholder="Password"/>
+            <input className="loginButton" type="submit" value="LOG IN"></input>
+            <a href="/signup">Create Account</a>
+          </div>
         </form>
-      </div>
-      <div>
-        <button onClick={createAccount}>Create Account</button>
-        <a href="/signup">Create Account</a>
       </div>
     </div>
 

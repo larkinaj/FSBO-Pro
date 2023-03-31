@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+
+main {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  background-color: #383434;
+  height: 100px;
+}
+
+.siteName {
+  color: red;
+  font-size: 50px;
+  padding-left: 70px;
+}

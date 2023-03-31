@@ -228,14 +228,13 @@ fileController.saveEdit = async (req, res, next) => {
 fileController.sendDocumentList = async (req, res, next) => {
   console.log('sendDocuments middleware')
   const documentSendQuery = {
-    // text: 'SELECT * FROM documents WHERE user_id = $1',
     // text: 'SELECT document_revisions.document_id, document_revisions.user_id, document_revisions.file_path, document_revisions.revision_number, document_revisions.revision_date, document_revisions.comments FROM "public"."document_revisions" WHERE user_id = $1',
     text: 'SELECT dr.document_id, dr.user_id, d.title, dr.revision_number, dr.file_path, dr.revision_date, dr.comments FROM documents d JOIN document_revisions dr ON dr.document_id = d.id JOIN users u ON u.id = dr.user_id WHERE u.id = $1 ORDER BY dr.revision_number DESC',
     values: [req.session.userID]
   };
   const sharedDocQuery = {
     // text: 'SELECT * FROM shared_documents JOIN documents ON documents.id = shared_documents.document_id WHERE shared_documents.shared_with_id = $1',
-    text: 'SELECT d.id AS document_id, d.title, dr.revision_number, dr.file_path, dr.revision_date, dr.comments, sd.owner_id, shared_with_id FROM documents d JOIN shared_documents sd ON sd.document_id = d.id JOIN document_revisions dr ON dr.document_id = d.id WHERE sd.shared_with_id = $1 ORDER BY dr.revision_number DESC',
+    text: 'SELECT d.id AS document_id, d.title, dr.revision_number, dr.file_path, dr.comments, dr.revision_date, dr.comments, sd.owner_id, shared_with_id FROM documents d JOIN shared_documents sd ON sd.document_id = d.id JOIN document_revisions dr ON dr.document_id = d.id WHERE sd.shared_with_id = $1 ORDER BY dr.revision_number DESC',
     values: [req.session.userID]
   }
   if (req.session.userID) {

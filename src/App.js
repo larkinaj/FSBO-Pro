@@ -37,16 +37,19 @@ function App(props) {
     })
   }, [isAuthenticated])
 
-  if (isAuthenticated === 'pending') {
+  //if (isAuthenticated === 'pending') {
+    // return (
+    //   <div className="router">
+    //     <h1>LOADING PAGE</h1>
+    //   </div>
+    // )
+  //}
+  //else if (isAuthenticated) {
     return (
       <div className="router">
-        <h1>LOADING PAGE</h1>
-      </div>
-    )
-  }
-  else if (isAuthenticated) {
-    return (
-      <div className="router">
+        <header>
+          <span className="siteName">FSBOPro</span>
+        </header>
         <main>
           <Routes>
             <Route
@@ -150,8 +153,8 @@ function App(props) {
         </main>
       </div>
     )
-  }
-  else if (!isAuthenticated) {
+  //}
+  //else if (!isAuthenticated) {
     return (
       <div className="router">
         <main>
@@ -196,7 +199,7 @@ function App(props) {
         </main>
       </div>
     )
-  }
+  //}
 }
 
 export default App;
