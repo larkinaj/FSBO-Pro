@@ -31,16 +31,15 @@ const LoginPage = (props) => {
   }
   return (
     <div className="loginBox">
-      <div>
-        <form onSubmit={loginUser} >
-          <div className="loginInputsDiv">
-            <input className="loginInputs" type="text" id="userLogin" name="userLogin" placeholder="Email Address"/>
-            <input className="loginInputs" type="password" id="passLogin" name="passLogin" placeholder="Password"/>
-            <input className="loginButton" type="submit" value="LOG IN"></input>
-            <a href="/signup">Create Account</a>
-          </div>
-        </form>
-      </div>
+      <form onSubmit={loginUser} >
+        <div className="loginInputsDiv">
+          <span>Log In</span>
+          <input className="loginInputs" type="text" id="userLogin" name="userLogin" placeholder="Email Address"/>
+          <input className="loginInputs" type="password" id="passLogin" name="passLogin" placeholder="Password"/>
+          <input className="loginButton" type="submit" value="LOG IN"></input>
+          <a href="/signup">Create Account</a>
+        </div>
+      </form>
     </div>
 
   )

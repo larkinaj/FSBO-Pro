@@ -7,19 +7,16 @@
   width: 40%;
   margin-top: 160px;
   border-radius: 15px;
-  /* border: solid 1px gray; */
   box-shadow: 2px 2px 4px #000000
 }
+
 
 .loginInputsDiv {
   display: flex;
   flex-direction: column;
   width: 320px;
-  height: 210px;
+  height: 250px;
   justify-content: space-between;
-  
-  /* align-items: center;
-  justify-content: center; */
 }
 
 .loginButtonDiv {

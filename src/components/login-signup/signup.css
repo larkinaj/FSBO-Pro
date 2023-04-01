@@ -1,0 +1,27 @@
+.signupBox {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  height: 350px;
+  width: 40%;
+  margin-top: 160px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 4px #000000
+}
+
+
+.signupInputsDiv {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  height: 300px;
+  justify-content: space-between;
+}
+
+.signupButton {
+  height: 35px;
+  background-color: #288ca4;
+  color: white;
+  border: none;
+}

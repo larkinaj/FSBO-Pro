@@ -87,11 +87,26 @@ const Document = (props) => {
         acc.push(
           <div className="revisionBoxes">
             <div className="revisionDetails">
-              <span>Title: {curr.title}</span>
-              <span>ID: {curr.document_id}</span>
-              <span>Created At: {curr.revision_date}</span>
-              <span>Revision Number: {curr.revision_number}</span>
-              <span>Comment: {curr.comments}</span>
+              <div className="detailChildDiv">
+                <span className="revisionSpan">Title: </span>
+                <span>{curr.title}</span>
+              </div>
+              <div className="detailChildDiv">
+                <span className="revisionSpan">Document ID: </span>
+                <span>{curr.document_id}</span>
+              </div>
+              <div className="detailChildDiv">
+                <span className="revisionSpan">Update Date: </span>
+                <span>{curr.revision_date}</span>
+              </div>
+              <div className="detailChildDiv">
+                <span className="revisionSpan">Version Number: </span>
+                <span>{curr.revision_number}</span>
+              </div>
+              <div className="detailChildDiv">
+                <span className="revisionSpan">Comment: </span>
+                <span>{curr.comments}</span>
+              </div>
             </div>
             <button className="viewDocButton" onClick={()=>viewDocument(curr.file_path)}>View</button>
           </div>

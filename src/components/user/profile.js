@@ -33,10 +33,22 @@ const Profile = (props) => {
     if (!curr.shared_with_id) {
       acc.push(
         <div className="documentBox">
-          <span className="docDetail">Name: {curr.title}</span>
-          <span className="docDetail">Last Updated: {curr.revision_date}</span>
-          <span className="docDetail">Current update: {curr.comments}</span>
-          <span className="docDetail">Version: {curr.revision_number}</span>
+          <div className="docDetailDiv">
+            <span className="docDetail">Name: </span>
+            <span>{curr.title}</span>
+          </div>
+          <div className="docDetailDiv">
+            <span className="docDetail">Last Updated: </span>
+            <span>{curr.revision_date}</span>
+          </div>
+          <div className="docDetailDiv">
+            <span className="docDetail">Last Comment: </span>
+            <span>{curr.comments}</span>
+          </div>
+          <div className="docDetailDiv">
+            <span className="docDetail">Version: </span>
+            <span>{curr.revision_number}</span>
+          </div>
           <button className="selectDocButton" onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
       )
@@ -48,10 +60,22 @@ const Profile = (props) => {
     if (curr.shared_with_id) {
       acc.push(
         <div className="documentBox">
-          <span className="docDetail">Name: {curr.title}</span>
-          <span className="docDetail">Last Updated: {curr.revision_date}</span>
-          <span className="docDetail">Last Comment: {curr.comments}</span>
-          <span className="docDetail">Version: {curr.revision_number}</span>
+          <div className="docDetailDiv">
+            <span className="docDetail">Name: </span>
+            <span>{curr.title}</span>
+          </div>
+          <div className="docDetailDiv">
+            <span className="docDetail">Last Updated: </span>
+            <span>{curr.revision_date}</span>
+          </div>
+          <div className="docDetailDiv">
+            <span className="docDetail">Last Comment: </span>
+            <span>{curr.comments}</span>
+          </div>
+          <div className="docDetailDiv">
+            <span className="docDetail">Version: </span>
+            <span>{curr.revision_number}</span>
+          </div>
           <button className="selectDocButton" onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
       )

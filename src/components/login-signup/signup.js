@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import './signup.css'
 
 const SignupPage = (props) => {
   const navigate = useNavigate();
@@ -27,17 +28,32 @@ const SignupPage = (props) => {
     })
   }
   return (
-    <div>
+    <div className="signupBox">
       <form onSubmit={signupUser}>
-        <input type="text" id="fnameSignup" name="fnameSignup" />
-        <label for="fnameSignup">First Name</label><br />
-        <input type="text" id="lnameSignup" name="lnameSignup" />
-        <label for="lnameSignup">Last Name</label><br />
-        <input type="text" id="userLogin" name="userLogin" />
-        <label for="userLogin">Email</label><br />
-        <input type="password" id="passLogin" name="passLogin" />
-        <label for="passLogin">Password</label><br />
-        <input type="submit" value="CREATE ACCOUNT"></input>
+        <div className="signupInputsDiv">
+          <span>Signup</span>
+          <div>
+            <input type="text" id="fnameSignup" name="fnameSignup" /><br />
+            <label for="fnameSignup">First Name</label>
+          </div>
+          <div>
+            <input type="text" id="lnameSignup" name="lnameSignup" /><br />
+            <label for="lnameSignup">Last Name</label>
+          </div>
+          <div>
+            <input type="text" id="userLogin" name="userLogin" /><br />
+            <label for="userLogin">Email</label> 
+          </div>
+          <div>
+            <input type="password" id="passLogin" name="passLogin" /><br />
+            <label for="passLogin">Password</label>
+          </div>
+
+
+
+
+          <input className="signupButton" type="submit" value="CREATE ACCOUNT"></input>
+        </div>
       </form>
     </div>
   )

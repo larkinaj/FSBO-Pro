@@ -76,3 +76,10 @@
   align-items: center;
 }
 
+.revisionSpan {
+  font-weight: bold;
+}
+
+.detailChildDiv {
+  margin: 3px;
+}
