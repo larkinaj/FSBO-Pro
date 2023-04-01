@@ -8,6 +8,18 @@ const Profile = (props) => {
 
   useEffect(() => {
     console.log('useEffect in Profile')
+    fetch('http://localhost:3000/api/verify')
+    .then((res)=>res.json())
+    .then((data)=>{
+      console.log('useEffect in App: ', data)
+      if (data.session.authenticated) {
+        props.setCurrentUser({firstName: data.session.firstName, userID: data.session.userID})
+        props.setUserDocuments(data.documents)
+        props.setIsAuthenticated(true)
+      } else if (!data.session.authenticated) {
+        props.setIsAuthenticated(false)
+      }
+    })
   }, [])
 
   const newDocument = () => {

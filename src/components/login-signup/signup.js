@@ -48,10 +48,6 @@ const SignupPage = (props) => {
             <input type="password" id="passLogin" name="passLogin" /><br />
             <label for="passLogin">Password</label>
           </div>
-
-
-
-
           <input className="signupButton" type="submit" value="CREATE ACCOUNT"></input>
         </div>
       </form>

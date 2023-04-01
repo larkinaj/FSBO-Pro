@@ -33,7 +33,6 @@ function App(props) {
       } else if (!data.session.authenticated) {
         setIsAuthenticated(false)
       }
-
     })
   }, [isAuthenticated])
 
@@ -72,6 +71,8 @@ function App(props) {
                   setUserDocuments={setUserDocuments}
                   setCurrentDocument={setCurrentDocument}
                   setFormData={setFormData}
+                  setCurrentUser={setCurrentUser}
+                  setIsAuthenticated={setIsAuthenticated}
                 />
               }
             />
@@ -83,6 +84,7 @@ function App(props) {
                   isAuthenticated={isAuthenticated}
                   currentUser={currentUser}
                   setFormData={setFormData}
+                  setUserDocuments={setUserDocuments}
                   formData={formData}
                 />
               }
@@ -95,6 +97,7 @@ function App(props) {
                   isAuthenticated={isAuthenticated}
                   currentUser={currentUser}
                   setFormData={setFormData}
+                  setUserDocuments={setUserDocuments}
                   formData={formData}
                 />
               }

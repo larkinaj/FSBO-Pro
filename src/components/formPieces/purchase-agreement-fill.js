@@ -23,7 +23,7 @@ const PurchaseAgreeFill = (props) => {
       }
       console.log(data)
     })
-  })
+  }, [])
 
   const handleClick = async () => {
     // fetch('http://localhost:3000/data')
@@ -82,14 +82,22 @@ const PurchaseAgreeFill = (props) => {
       headers: {
         'Content-Type': 'application/json'
       },
-    })
-    .then(res => res.blob())
-    .then(blob => {
-      const fileURL = window.URL.createObjectURL(blob);
-      window.open(fileURL);
-      window.URL.revokeObjectURL(fileURL);
-    })
-    .catch((err) => console.error(err))
+      })
+      .then(res => res.blob())
+      .then(blob => {
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL);
+        window.URL.revokeObjectURL(fileURL);
+        fetch('http://localhost:3000/api/verify')
+        .then((res)=>res.json())
+        .then((data)=>{
+          console.log('useEffect in App: ', data)
+          if (data.session.authenticated) {
+            props.setUserDocuments(data.documents)
+          }
+        })
+      })
+      .catch((err) => console.error(err))
     }
 
     if (copyOfFormData.length === 40) {
@@ -108,6 +116,14 @@ const PurchaseAgreeFill = (props) => {
         const fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL);
         window.URL.revokeObjectURL(fileURL);
+        fetch('http://localhost:3000/api/verify')
+        .then((res)=>res.json())
+        .then((data)=>{
+          console.log('useEffect in App: ', data)
+          if (data.session.authenticated) {
+            props.setUserDocuments(data.documents)
+          }
+        })
       })
       .catch((err) => console.error(err))
     }
