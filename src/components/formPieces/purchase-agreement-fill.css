@@ -1,0 +1,67 @@
+.formDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.formListItems:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.currentForm {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin-left: 100px;
+  max-width: 525px;
+  min-width: 415px;
+}
+
+#submissionCommment {
+  height: 50px;
+  margin-right: 33px;
+}
+
+.formSubmissionDiv {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.commentSubmitDiv {
+  display: flex;
+  /* justify-content: start; */
+  align-items: center;
+}
+
+.commentsSpan {
+  font-size: 14px;
+}
+
+label {
+  font-size: 16px;
+}
+
+.navigateFormButton {
+  background-color: #288ca4;
+  color: white;
+  border: solid 1px gray;
+  /* width:240px;
+  align-self: center; */
+  padding: 3px;
+  margin-top: 10px;
+  margin-right: 3px;
+  margin-left: 3px;
+  margin-bottom: 3px;
+}
+
+.submitFormButton {
+  background-color: #288ca4;
+  color: white;
+  padding: 10px;
+  border: solid 1px gray;
+  width: 170px;
+  /* margin: 5px; */
+  height: 45px;
+}

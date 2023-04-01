@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState, Component, useEffect } from "react";
-import PurchaseAgreeFill from "../purchase-agreement-fill";
 import blankForm from '../helperFunctions/helper';
+import './profile.css'
 
 const Profile = (props) => {
   const navigate = useNavigate();
@@ -32,13 +32,12 @@ const Profile = (props) => {
   let ownDocuments = uniqueDocuments.reduce((acc, curr) => {
     if (!curr.shared_with_id) {
       acc.push(
-        <div>
-          <h3>{curr.title}</h3>
-          <h3>docid:{curr.document_id}</h3>
-          <h3>Last Updated:{curr.revision_date}</h3>
-          <h3>Current update:{curr.comments}</h3>
-          <h3>rev#:{curr.revision_number}</h3>
-          <button onClick={()=>selectDoc(curr.document_id)}>Select</button>
+        <div className="documentBox">
+          <span className="docDetail">Name: {curr.title}</span>
+          <span className="docDetail">Last Updated: {curr.revision_date}</span>
+          <span className="docDetail">Current update: {curr.comments}</span>
+          <span className="docDetail">Version: {curr.revision_number}</span>
+          <button className="selectDocButton" onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
       )
     }
@@ -48,13 +47,12 @@ const Profile = (props) => {
   let sharedDocuments = uniqueDocuments.reduce((acc, curr) => {
     if (curr.shared_with_id) {
       acc.push(
-        <div>
-          <h3>{curr.title}</h3>
-          <h3>docid:{curr.document_id}</h3>
-          <h3>Last Updated:{curr.revision_date}</h3>
-          <h3>Current update:{curr.comments}</h3>
-          <h3>rev#:{curr.revision_number}</h3>
-          <button onClick={()=>selectDoc(curr.document_id)}>Select</button>
+        <div className="documentBox">
+          <span className="docDetail">Name: {curr.title}</span>
+          <span className="docDetail">Last Updated: {curr.revision_date}</span>
+          <span className="docDetail">Last Comment: {curr.comments}</span>
+          <span className="docDetail">Version: {curr.revision_number}</span>
+          <button className="selectDocButton" onClick={()=>selectDoc(curr.document_id)}>Select</button>
         </div>
       )
     }
@@ -62,20 +60,23 @@ const Profile = (props) => {
   }, [])
 
   return (
-    <div>
-      <div>
+    <div className="profileDiv">
+      <div className="welcomeHeaderDiv">
         <h1>Welcome {props.currentUser.firstName}</h1>
+        <button className="createDocButton" onClick={newDocument}>Create New Document</button>
       </div>
-      <div>
-        <h3>Your Documents</h3>
-        {ownDocuments}
-      </div>
-      <div>
-        <h3>Documents Shared With You</h3>
-        {sharedDocuments}
-      </div>
-      <div>
-        <button onClick={newDocument}>Create New Document</button>
+      <div className="profileColumns">
+        <div className="yourDocuments">
+          <h3>Your Documents</h3>
+          {ownDocuments}
+        </div>
+        <div className="sharedDocuments">
+          <h3>Documents Shared With You</h3>
+          {sharedDocuments}
+        </div>
+        {/* <div className="createDocDiv">
+          <button className="createDocButton" onClick={newDocument}>Create New Document</button>
+        </div> */}
       </div>
     </div>
   )

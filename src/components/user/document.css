@@ -1,0 +1,78 @@
+.revisionDiv {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.revisionBoxDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.revisionBoxes {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px;
+  margin: 10px
+}
+
+.revisionBoxAndInputs {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.revisionInputs {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  /* align-items: center; */
+  /* margin-top: 50px;
+  margin-left: 50px; */
+}
+
+.viewDocButton {
+  background-color: #288ca4;
+  color: white;
+  border: solid 1px gray;
+  width:240px;
+  align-self: center;
+  padding: 3px;
+  margin: 3px;
+}
+
+.editDocButton {
+  background-color: #288ca4;
+  color: white;
+  padding: 10px;
+  border: solid 1px gray;
+  width: 125px;
+  margin: 5px;
+  height: 45px;
+}
+
+.shareDocButton {
+  background-color: #288ca4;
+  color: white;
+  border: solid 1px gray;
+  width: 125px;
+  height: 45px;
+  margin: 5px;
+}
+
+#sharedUser {
+  height: 42px;
+  margin-right: 10px;
+}
+
+.revisionDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.revisionHeaderDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+

@@ -4,7 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import OpenStreetMap from "./components/postings/openstreetmap";
 import Mapbox  from "./components/postings/mapbox";
 import NotFound from "./components/not-found";
-import PurchaseAgreeFill from "./components/purchase-agreement-fill";
+import PurchaseAgreeFill from "./components/formPieces/purchase-agreement-fill";
 import LoginPage from "./components/login-signup/login"
 import SignupPage from "./components/login-signup/signup";
 import Profile from "./components/user/profile";
@@ -37,14 +37,14 @@ function App(props) {
     })
   }, [isAuthenticated])
 
-  //if (isAuthenticated === 'pending') {
-    // return (
-    //   <div className="router">
-    //     <h1>LOADING PAGE</h1>
-    //   </div>
-    // )
-  //}
-  //else if (isAuthenticated) {
+  if (isAuthenticated === 'pending') {
+    return (
+      <div className="router">
+        <h1>LOADING PAGE</h1>
+      </div>
+    )
+  }
+  else if (isAuthenticated) {
     return (
       <div className="router">
         <header>
@@ -151,12 +151,18 @@ function App(props) {
             />
           </Routes>
         </main>
+        <footer>
+          
+        </footer>
       </div>
     )
-  //}
-  //else if (!isAuthenticated) {
+  }
+  else if (!isAuthenticated) {
     return (
       <div className="router">
+        <header>
+          <span className="siteName">FSBOPro</span>
+        </header>
         <main>
           <Routes>
             <Route 
@@ -197,9 +203,12 @@ function App(props) {
             />
           </Routes>
         </main>
+        <footer>
+          
+        </footer>
       </div>
     )
-  //}
+  }
 }
 
 export default App;

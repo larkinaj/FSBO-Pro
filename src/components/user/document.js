@@ -1,6 +1,7 @@
 import { closeComplete } from "pg-protocol/dist/messages";
 import React, { useState, Component, useEffect, cloneElement } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import './document.css'
 
 const Document = (props) => {
   const { id } = useParams()
@@ -84,15 +85,15 @@ const Document = (props) => {
     const currentDocEl = props.userDocuments.reduce((acc, curr)=>{
       if (curr.document_id === Number(id)) {
         acc.push(
-          <div>
-            <div>
+          <div className="revisionBoxes">
+            <div className="revisionDetails">
               <span>Title: {curr.title}</span>
               <span>ID: {curr.document_id}</span>
               <span>Created At: {curr.revision_date}</span>
               <span>Revision Number: {curr.revision_number}</span>
-              <span>Update: {curr.comments}</span>
+              <span>Comment: {curr.comments}</span>
             </div>
-            <button onClick={()=>viewDocument(curr.file_path)}>View</button>
+            <button className="viewDocButton" onClick={()=>viewDocument(curr.file_path)}>View</button>
           </div>
         )
       }
@@ -104,18 +105,29 @@ const Document = (props) => {
 
 
   return (
-    <div>
-      <h1>Document Info:</h1>
-      {props.currentDocument}
-      <div>
-        <button onClick={retrievePDF}>Edit Document</button>
+    <div className="revisionDiv">
+      <div className="revisionHeaderDiv">
+        <h1>Revision Info:</h1>
+        <div className="revisionInputs">
+          <form onSubmit={(e)=>shareDocument(e)}>
+            <input className="shareDocButton" type="submit" value="Send To User"></input>
+            <input type='text' placeholder="Enter user's email" name="sharedUser" id="sharedUser"></input>
+          </form>
+          {sharedStatus}
+          <button className="editDocButton" onClick={retrievePDF}>Add Revision</button>
+        </div>
       </div>
-      <div>
-        <form onSubmit={(e)=>shareDocument(e)}>
-          <input type='text' placeholder="Enter user's email" name="sharedUser" id="sharedUser"></input>
-          <input type="submit" value="Send To User"></input>
-        </form>
-        {sharedStatus}
+      <div className="revisionBoxAndInputs">
+        <div className="revisionBoxDiv">
+          {props.currentDocument}
+        </div>
+        {/* <div className="revisionInputs">
+          <form onSubmit={(e)=>shareDocument(e)}>
+            <input type='text' placeholder="Enter user's email" name="sharedUser" id="sharedUser"></input>
+            <input className="shareDocButton" type="submit" value="Send To User"></input>
+          </form>
+          {sharedStatus}
+        </div> */}
       </div>
     </div>
   )

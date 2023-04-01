@@ -202,7 +202,7 @@ const PersonalProperty = (props) => {
     <div>
       <h3>Personal Property and Fixtures</h3>
       <form>
-        <input onChange={(e)=>changePersonalProp(e)} type="text" id="propertyList" name="propertyList" />
+        <input onChange={(e)=>changePersonalProp(e)} type="text" id="propertyList" name="propertyList" /><br />
         <label for="propertyList">List All Personal Property and Fixtures</label><br />
       </form>
     </div>
@@ -705,11 +705,13 @@ const PurchasePrice = (props) => {
     <div>
       <h3>Purchase Price</h3>
       <form>
-        <span>Numeric</span>
+        {/* <span>Numeric</span> */}
+        <label for="numericPrice">Numeric Value</label>
         <div>$
           <input onChange={(e)=>changePrice(e)} type="number" step=".01" id="numericPrice" name="numericPrice" />
         </div>
-        <span>Text</span>
+        {/* <span>Text</span> */}
+        <label for="numericPrice">Text Value</label>
         <div>
           <input onChange={(e)=>changePrice(e)} type="text" id="textPrice" name="textPrice" />
           Dollars
@@ -840,8 +842,7 @@ const EffectiveDate = (props) => {
   return (
     <div className='formContainer'>
       <h3>Effective Date</h3>
-      <span>Effective Date Of This Agreement</span>
-      <label for="effectiveDate">Start date:</label>
+      <span>Effective Date Of This Agreement</span><br />
       <input onChange={(e)=>changeDate(e)} type="date" id="effectiveDate" name="effectiveDate" />
     </div>
   )
