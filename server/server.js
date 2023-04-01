@@ -16,7 +16,7 @@ app.use(session({
   secret: 'secret key',
   saveUninitialized: false,
   resave: false,
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 120000 },
   rolling: true
 }))
 app.use(express.static(path.resolve(__dirname, '../build')))

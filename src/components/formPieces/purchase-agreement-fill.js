@@ -139,7 +139,7 @@ const PurchaseAgreeFill = (props) => {
 
   return (
     <div>
-      <h1>Virginia Residential Purchase and Sale Agreement</h1>
+      <h1>Virginia Residential Purchase Agreement</h1>
       <div className="formDiv">
         <div>
           <ol>
