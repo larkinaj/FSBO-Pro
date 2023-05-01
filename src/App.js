@@ -22,7 +22,7 @@ function App(props) {
   
   useEffect(() => {
     console.log('useEffect in App.js')
-    fetch('http://localhost:3000/api/verify')
+    fetch('/api/verify')
     .then((res)=>res.json())
     .then((data)=>{
       console.log('useEffect in App: ', data)

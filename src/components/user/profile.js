@@ -8,7 +8,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     console.log('useEffect in Profile')
-    fetch('http://localhost:3000/api/verify')
+    fetch('/api/verify')
     .then((res)=>res.json())
     .then((data)=>{
       console.log('useEffect in App: ', data)

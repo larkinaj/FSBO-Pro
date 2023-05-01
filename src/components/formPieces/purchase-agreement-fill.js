@@ -14,7 +14,7 @@ const PurchaseAgreeFill = (props) => {
 
   useEffect(() => {
     console.log('useEffect in Purchase-Agreement')
-    fetch('http://localhost:3000/api/verify')
+    fetch('/api/verify')
     .then((res)=>res.json())
     .then((data)=>{
       console.log('Here is purchase-agreement component')
@@ -26,7 +26,7 @@ const PurchaseAgreeFill = (props) => {
   }, [])
 
   const handleClick = async () => {
-    // fetch('http://localhost:3000/data')
+    // fetch('/data')
     // .then(res => {
     //   console.log(res)
     //   return res.blob()
@@ -76,7 +76,7 @@ const PurchaseAgreeFill = (props) => {
     console.log(copyOfFormData)
     if (copyOfFormData.length === 41) {
       copyOfFormData[40].comments = document.getElementById('submissionCommment').value
-      fetch('http://localhost:3000/api/profile/save-edit', {
+      fetch('/api/profile/save-edit', {
       method: 'POST',
       body: JSON.stringify(copyOfFormData),
       headers: {
@@ -88,7 +88,7 @@ const PurchaseAgreeFill = (props) => {
         const fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL);
         window.URL.revokeObjectURL(fileURL);
-        fetch('http://localhost:3000/api/verify')
+        fetch('/api/verify')
         .then((res)=>res.json())
         .then((data)=>{
           console.log('useEffect in App: ', data)
@@ -104,7 +104,7 @@ const PurchaseAgreeFill = (props) => {
       copyOfFormData.push(props.currentUser)
       copyOfFormData[40].comments = document.getElementById('submissionCommment').value
       if (document.getElementById('submissionCommment').value === '') copyOfFormData[40].comments = 'Initial version'
-      fetch('http://localhost:3000/create', {
+      fetch('/create', {
         method: 'POST',
         body: JSON.stringify(copyOfFormData),
         headers: {
@@ -116,7 +116,7 @@ const PurchaseAgreeFill = (props) => {
         const fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL);
         window.URL.revokeObjectURL(fileURL);
-        fetch('http://localhost:3000/api/verify')
+        fetch('/api/verify')
         .then((res)=>res.json())
         .then((data)=>{
           console.log('useEffect in App: ', data)

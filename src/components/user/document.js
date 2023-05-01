@@ -19,7 +19,7 @@ const Document = (props) => {
     // for (let i = 0; i < props.userDocuments.length; i++) {
     //   if (props.userDocuments[i].document_id === Number(id)) path = props.userDocuments[i].file_path
     // }
-    fetch('http://localhost:3000/api/profile/send-document', {
+    fetch('/api/profile/send-document', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ path })
@@ -34,7 +34,7 @@ const Document = (props) => {
   
   const shareDocument = (event) => {
     event.preventDefault()
-    fetch('http://localhost:3000/api/profile/share-document', {
+    fetch('/api/profile/share-document', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({

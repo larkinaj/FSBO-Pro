@@ -12,7 +12,7 @@ const SignupPage = (props) => {
       userLogin: event.target.userLogin.value,
       passLogin: event.target.passLogin.value
     }
-    fetch('http://localhost:3000/api/signup', {
+    fetch('/api/signup', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(signUpInfo)
