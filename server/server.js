@@ -3,13 +3,14 @@ const { PDFDocument, StandardFonts, rgb, nextLine } = require('pdf-lib');
 const express = require('express');
 const fs = require('fs')
 const session = require('express-session')
+require('dotenv').config()
 
 const fileController = require('./controllers/fileController');
 const sessionController = require('./controllers/sessionController')
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(session({
