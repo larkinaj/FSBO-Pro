@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'FSBO-Pro'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B92FAB692DDF4C16AB595CD5AD5D857C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_60B6D84453544A3FBB5161733F6DE868 }}
           package: .
