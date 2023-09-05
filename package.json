@@ -20,8 +20,8 @@
   },
   "scripts": {
     "start": "node ./server/server.js",
-    "build": "CI=false && react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
